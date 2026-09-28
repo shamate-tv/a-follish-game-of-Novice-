@@ -1,0 +1,6 @@
+# GitHub 是按文件字节数猜语言的。main.html 是打包机生成的播放器（里面 99% 是
+# Scratch 虚拟机引擎），把它标成"生成物"，就不会再把这个仓库判定成 HTML 了。
+main.html linguist-generated=true
+
+# .sb3 是 zip 二进制，本来就不参与统计，写出来免得以后疑惑
+*.sb3 linguist-detectable=false

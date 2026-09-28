@@ -14,7 +14,7 @@
 |---|---|
 | **JavaScript 移植版（推荐）** | https://shamate-tv.github.io/a-follish-game-of-Novice-/web/ |
 | 原版 Scratch 打包版 | https://shamate-tv.github.io/a-follish-game-of-Novice-/main.html |
-| Python 桌面版 | 把仓库拉下来：`python novice_chase.py`（在 `python/` 目录里） |
+| Python 桌面版 | 把仓库拉下来，根目录直接 `python novice_chase.py` |
 
 ![游戏截图](preview.png)
 
@@ -23,14 +23,13 @@
 ```
 main.html                 ← Scratch 打包机生成的播放器（2.9 MB，99% 是虚拟机引擎）
 神经网页源代码v2.sb3        ← ★ 原始 Scratch 工程，想改玩法先改这个（TurboWarp / mBlock 打开）
+novice_chase.py           ← ★ Python 移植版（tkinter，只用标准库，不用装东西）
+assets/                   ← Python 版用的素材：avatar.png + kai.wav
 web/                      ← JavaScript 移植版（就是上面在线试玩那个）
   ├── index.html            页面，只有 60 行
   ├── game.js               游戏逻辑，积木全在这里
-  ├── assets/               头像 avatar.png + 音效 kai.wav
+  ├── assets/               网页版自己的素材
   └── tools/test-sim.js     不用浏览器的自测，32 项检查
-python/
-  ├── novice_chase.py     ← Python 移植版（tkinter，只用标准库，不用装东西）
-  └── assets/
 preview.png               截图
 ```
 
@@ -50,8 +49,7 @@ python -m http.server 8000     # 或 VSCode 的 Live Server
 **Python 版**
 
 ```bash
-cd python
-python novice_chase.py         # Python 3.8+，tkinter 是自带的，Windows / macOS / Linux 都能跑
+python novice_chase.py         # 在仓库根目录执行；Python 3.8+，tkinter 是自带的，三平台都能跑
 ```
 
 **自测**（不需要浏览器，也不需要装依赖）
@@ -62,7 +60,7 @@ cd web && node tools/test-sim.js
 
 ## 🧩 积木 → 代码 对照表
 
-| Scratch 积木 | JavaScript (`web/game.js`) | Python (`python/novice_chase.py`) |
+| Scratch 积木 | JavaScript (`web/game.js`) | Python (`novice_chase.py`) |
 |---|---|---|
 | 当绿旗被点击 | `Sim.greenFlag()` | `Game.green_flag()` |
 | 重复执行 { … } | `while (true) { … yield; }` | `while True: … yield 1` |
@@ -83,8 +81,8 @@ cd web && node tools/test-sim.js
 |---|---|---|
 | 追得更快 / 更慢 | `moveSteps(10)` 里的 10 | `move_steps(10)` 里的 10 |
 | 头像大小 | `avatar.setSize(50)` | `avatar.size = 50` |
-| 换音效 | 换 `web/assets/kai.wav` | 换 `python/assets/kai.wav` |
-| 换头像 | 换 `web/assets/avatar.png` | 换 `python/assets/avatar.png` |
+| 换音效 | 换 `web/assets/kai.wav` | 换 `assets/kai.wav` |
+| 换头像 | 换 `web/assets/avatar.png` | 换 `assets/avatar.png` |
 | 下面那行字 | `text: 'novice'` | `text="novice"` |
 | 帧率 | `game.js` 顶部 `const FPS = 30` | `novice_chase.py` 顶部 `FPS = 30` |
 
@@ -115,7 +113,7 @@ main.html linguist-generated=true
 *.sb3 linguist-detectable=false
 ```
 
-这样 GitHub 只统计 `web/` 和 `python/` 里的真实源码，语言标签就正常了。
+这样 GitHub 只统计 `web/` 和根目录 `novice_chase.py` 里的真实源码，语言标签就正常了。
 
 ## 📜 素材 & 说明
 
