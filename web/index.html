@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>novice追逐赛 · JavaScript 移植版</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; background: #1d1d21; color: #eee;
+    font-family: "Microsoft YaHei", system-ui, sans-serif;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+  }
+  #stage {
+    width: min(96vw, 133vh); aspect-ratio: 4 / 3; display: block;
+    background: #fff; border-radius: 8px; box-shadow: 0 8px 30px #0008;
+    touch-action: none; cursor: crosshair;
+  }
+  #bar { display: flex; align-items: center; gap: 10px; font-size: 14px; opacity: .9; }
+  #flag { font-size: 20px; line-height: 1; padding: 4px 10px; border-radius: 6px;
+          border: 1px solid #4c9a4c; background: #2b6b2b; color: #fff; cursor: pointer; }
+  #flag:hover { background: #3a8a3a; }
+  #hint { text-align: center; font-size: 13px; color: #aaa; line-height: 1.7; }
+</style>
+</head>
+<body>
+
+  <canvas id="stage" title="舞台"></canvas>
+
+  <div id="bar">
+    <button id="flag" title="点击绿旗重新开始">🏳️ 绿旗</button>
+    <span id="status">点「绿旗」开始</span>
+  </div>
+
+  <p id="hint">
+    鼠标跑到哪，「头像」就追到哪；追到你就播一次「凯の音」。<br>
+    原作是 Scratch 作品《神经网页源代码v2.sb3》，这份代码是逐块积木翻译过来的。
+  </p>
+
+  <script src="game.js"></script>
+  <script>
+    (async () => {
+      const status = document.getElementById('status');
+      const game = await NC.start({
+        canvas: document.getElementById('stage'),
+        avatarSrc: 'assets/avatar.png',
+        soundSrc: 'assets/kai.wav',
+        autostart: false,          // 等玩家点绿旗，顺便让浏览器允许放声音
+      });
+      const start = () => { game.greenFlag(); status.textContent = '追逐中…（点绿旗重来）'; };
+      document.getElementById('flag').addEventListener('click', start);
+      document.addEventListener('keydown', e => { if (e.code === 'Space') start(); });
+      // 调试用：index.html?autostart=1&mouse=120,-60 可以直接跑起来，方便截图 / 录 GIF
+      // （?frames=N 时 game.js 已经快进到第 N 帧并停住，这里就别再重启脚本了）
+      const q = new URLSearchParams(location.search);
+      if (q.has('autostart') && !q.has('frames')) start();
+    })();
+  </script>
+</body>
+</html>
